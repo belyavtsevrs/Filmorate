@@ -1,1 +1,3 @@
-![image](https://github.com/belyavtsevrs/Filmorate/assets/122114112/a1469d02-dd5e-4973-af37-3339dd69543e)
+
+![image](https://github.com/belyavtsevrs/Filmorate/assets/122114112/82886241-04ae-44a8-b797-074e68d33c40)
+
