@@ -14,7 +14,6 @@ public abstract class AbstractEntity {
     public AbstractEntity(){
 
     }
-
     public Long getId() {
         return id;
     }

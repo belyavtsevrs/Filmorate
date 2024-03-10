@@ -30,28 +30,35 @@ public class UserController {
     public List<User> getFriends(@PathVariable("id")Long id){
         return userService.friendList(id);
     }
+
     @GetMapping("/{id}/common-friends/{friend-id}")
     public List<User> getCommonFriends(@PathVariable("id")Long id, @PathVariable("friend-id")Long friendId){
         return userService.commonFriends(id,friendId);
     }
+
     @GetMapping("/find-all")
     public List<User> findAll(){
         return userService.findAll();
     }
+
     @GetMapping("/find-by-id/{id}")
     public User findById(@PathVariable("id") Long id){
         return userService.findById(id);
     }
+
     @PutMapping("/update-user")
-    public User updateUser(@RequestBody User user){
+    public User updateUser(@Valid @RequestBody User user){
         return userService.update(user);
     }
+
     @PostMapping("/create-user")
     public User createuser(@Valid @RequestBody User user){
         return userService.create(user);
     }
+
     @DeleteMapping("/delete-user")
     public void deleteUser(@RequestParam("id")Long id){
         userService.delete(id);
     }
+
 }

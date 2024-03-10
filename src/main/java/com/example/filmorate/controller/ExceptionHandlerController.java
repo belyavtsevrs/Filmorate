@@ -2,6 +2,7 @@ package com.example.filmorate.controller;
 
 import com.example.filmorate.exceptions.AlreadyExistsException;
 import com.example.filmorate.exceptions.NotFoundException;
+import com.example.filmorate.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,12 @@ public class ExceptionHandlerController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<String> alreadyExists(AlreadyExistsException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<String> invalidData(ValidationException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

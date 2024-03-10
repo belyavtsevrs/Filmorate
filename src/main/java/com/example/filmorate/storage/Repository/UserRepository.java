@@ -1,9 +1,11 @@
 package com.example.filmorate.storage.Repository;
 
 
+import com.example.filmorate.model.AbstractEntity;
 import com.example.filmorate.model.User;
 import com.example.filmorate.storage.UserStorage;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,15 +14,15 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@Primary
-@AllArgsConstructor
+@Slf4j
 @Component
+@AllArgsConstructor
 public class UserRepository implements UserStorage {
     private final JdbcTemplate jdbcTemplate;
+
     @Override
     public User create(User data) {
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
@@ -65,6 +67,7 @@ public class UserRepository implements UserStorage {
         String sql = "SELECT * FROM USERS WHERE EMAIL = ?";
         return jdbcTemplate.query(sql,this::mapToUser,email).isEmpty();
     }
+
     @Override
     public void addFriend(Long id , Long userId){
         insertFriend(id,userId);
@@ -114,6 +117,8 @@ public class UserRepository implements UserStorage {
         jdbcTemplate.update(sql,id,userId,true);
     }
 
+
+
     private User mapToUser(ResultSet resultSet,int rowNum) throws SQLException {
         User user = new User();
         user.setId(resultSet.getLong("USER_ID"));
@@ -121,7 +126,13 @@ public class UserRepository implements UserStorage {
         user.setLogin(resultSet.getString("LOGIN"));
         user.setName(resultSet.getString("NAME"));
         user.setBirthday(resultSet.getDate("BIRTHDAY").toLocalDate());
+        user.setFriends(friendList(Long.valueOf(resultSet.getLong("USER_ID"))));
         return user;
+    }
+
+    private HashSet<Long> friendList(Long id){
+        String sql = "SELECT USER_ID2 FROM FRIENDSHIP WHERE USER_ID1 = ?";
+        return new HashSet<>(jdbcTemplate.queryForList(sql, Long.class, id));
     }
 
 }

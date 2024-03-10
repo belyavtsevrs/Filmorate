@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService extends AbstractService<User, UserRepository>{
 
+
     public UserService(UserRepository storage) {
         super(storage);
     }

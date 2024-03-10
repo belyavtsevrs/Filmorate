@@ -20,9 +20,9 @@ public class User extends AbstractEntity{
     @Size(min = 5 , max = 20)
     private String login;
     private String name;
+    private Set<Long> friends;
     @Past
     private LocalDate birthday;
-    private Set<Long> friends;
     public User(){}
     public User(Long id, String email, String login, String name, LocalDate birthday) {
         super(id);
